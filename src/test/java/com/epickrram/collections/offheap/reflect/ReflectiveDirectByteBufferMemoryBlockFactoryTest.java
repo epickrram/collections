@@ -19,6 +19,7 @@ package com.epickrram.collections.offheap.reflect;
 
 import com.epickrram.collections.offheap.TestObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -34,6 +35,7 @@ public final class ReflectiveDirectByteBufferMemoryBlockFactoryTest
         factory = new ReflectiveDirectByteBufferMemoryBlockFactory<TestObject>(TestObject.class);
     }
 
+    @Ignore("work in progress")
     @Test
     public void shouldGenerateMemoryBlock() throws Exception
     {

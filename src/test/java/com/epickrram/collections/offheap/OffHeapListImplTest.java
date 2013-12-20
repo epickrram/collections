@@ -18,6 +18,7 @@
 package com.epickrram.collections.offheap;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -33,6 +34,7 @@ public final class OffHeapListImplTest
         list = new OffHeapListImpl<TestObject>(TestObject.class);
     }
 
+    @Ignore("work in progress")
     @Test
     public void shouldAppendElement() throws Exception
     {

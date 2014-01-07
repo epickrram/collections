@@ -7,7 +7,7 @@
 
 
 
-package com.epickrram.collections.histogram;
+package com.epickrram.collections.util;
 
 import sun.misc.Unsafe;
 

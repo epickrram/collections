@@ -1,5 +1,7 @@
+package com.epickrram.collections.array;
+
 //////////////////////////////////////////////////////////////////////////////////
-//   Copyright 2013   Mark Price     mark at epickrram.com                      //
+//   Copyright 2014   Mark Price     mark at epickrram.com                      //
 //                                                                              //
 //   Licensed under the Apache License, Version 2.0 (the "License");            //
 //   you may not use this file except in compliance with the License.           //
@@ -15,19 +17,41 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-package com.epickrram.collections.histogram;
+import com.epickrram.collections.util.Util;
+import sun.misc.Unsafe;
 
-public enum PowerOfTwo
+public final class Object1P1CArray<T>
 {
-    INSTANCE;
+    private final Object[] data;
+    private final Unsafe unsafe;
+    private final int base;
+    private final int scale;
 
-    public int nextHighestPowerOfTwo(final int value)
+    public Object1P1CArray(final int length, final Class<T> type)
     {
-        int ceiling = 1;
-        while(ceiling < value)
-        {
-            ceiling <<= 1;
-        }
-        return ceiling;
+        this.data = new Object[length];
+        unsafe = Util.getUnsafe();
+        base = unsafe.arrayBaseOffset(Object[].class);
+        scale = unsafe.arrayIndexScale(Object[].class);
+    }
+
+    public void set(final int index, final T value) throws ArrayIndexOutOfBoundsException
+    {
+        unsafe.putOrderedObject(data, getOffset(index), value);
+    }
+
+    public T get(final int index) throws ArrayIndexOutOfBoundsException
+    {
+        return (T) unsafe.getObjectVolatile(data, getOffset(index));
+    }
+
+    public int getLength()
+    {
+        return data.length;
+    }
+
+    private int getOffset(final int index)
+    {
+        return base + (index * scale);
     }
 }

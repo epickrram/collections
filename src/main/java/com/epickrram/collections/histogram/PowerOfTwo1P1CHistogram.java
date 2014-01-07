@@ -17,7 +17,8 @@
 
 package com.epickrram.collections.histogram;
 
-import sun.misc.Unsafe;
+import com.epickrram.collections.array.Int1P1CArray;
+import com.epickrram.collections.util.PowerOfTwo;
 
 public final class PowerOfTwo1P1CHistogram
 {
@@ -26,21 +27,15 @@ public final class PowerOfTwo1P1CHistogram
     private final boolean validating;
     private final int maxValue;
     private final int maxPowerOfTwo;
-    private final int[] data;
-    private final Unsafe unsafe;
-    private final int base;
-    private final int scale;
     private final ValueIterator iterator;
+    private final Int1P1CArray array;
 
     public PowerOfTwo1P1CHistogram(final int maxValue, final boolean validating)
     {
         this.validating = validating;
         this.maxValue = maxValue;
         maxPowerOfTwo = PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(maxValue);
-        data = new int[calculateArrayLength()];
-        unsafe = Util.getUnsafe();
-        base = unsafe.arrayBaseOffset(int[].class);
-        scale = unsafe.arrayIndexScale(int[].class);
+        array = new Int1P1CArray(calculateArrayLength());
         iterator = new Iterator();
     }
 
@@ -49,10 +44,8 @@ public final class PowerOfTwo1P1CHistogram
         if(validating) checkBounds(value);
 
         final int index = getIndex(value);
-        final long offset = getOffset(index);
-
-        final int current = unsafe.getInt(data, offset);
-        unsafe.putOrderedInt(data, offset, current + 1);
+        final int current = array.get(index);
+        array.set(index, current + 1);
     }
 
     public ValueIterator iterator()
@@ -72,11 +65,6 @@ public final class PowerOfTwo1P1CHistogram
         }
     }
 
-    private int getOffset(final int index)
-    {
-        return base + (index * scale);
-    }
-
     private int getIndex(final int value)
     {
         return INTEGER_BIT_LENGTH - Integer.numberOfLeadingZeros(value);
@@ -94,7 +82,7 @@ public final class PowerOfTwo1P1CHistogram
         @Override
         public boolean next()
         {
-            return (++index) < data.length;
+            return (++index) < array.getLength();
         }
 
         @Override
@@ -106,9 +94,7 @@ public final class PowerOfTwo1P1CHistogram
         @Override
         public long getValue()
         {
-            final long offset = getOffset(index);
-
-            return unsafe.getIntVolatile(data, offset);
+            return array.get(index);
         }
 
         @Override

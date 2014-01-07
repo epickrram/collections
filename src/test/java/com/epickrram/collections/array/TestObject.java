@@ -1,5 +1,7 @@
+package com.epickrram.collections.array;
+
 //////////////////////////////////////////////////////////////////////////////////
-//   Copyright 2013   Mark Price     mark at epickrram.com                      //
+//   Copyright 2014   Mark Price     mark at epickrram.com                      //
 //                                                                              //
 //   Licensed under the Apache License, Version 2.0 (the "License");            //
 //   you may not use this file except in compliance with the License.           //
@@ -15,21 +17,6 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-package com.epickrram.collections.histogram;
-
-import com.epickrram.collections.util.PowerOfTwo;
-import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-public final class PowerOfTwoTest
+public final class TestObject
 {
-    @Test
-    public void shouldFindCeilingPowerOfTwo() throws Exception
-    {
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1023), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1024), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1025), is(2048));
-    }
 }

@@ -1,5 +1,7 @@
+package com.epickrram.collections.array;
+
 //////////////////////////////////////////////////////////////////////////////////
-//   Copyright 2013   Mark Price     mark at epickrram.com                      //
+//   Copyright 2014   Mark Price     mark at epickrram.com                      //
 //                                                                              //
 //   Licensed under the Apache License, Version 2.0 (the "License");            //
 //   you may not use this file except in compliance with the License.           //
@@ -15,21 +17,48 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-package com.epickrram.collections.histogram;
-
-import com.epickrram.collections.util.PowerOfTwo;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
-public final class PowerOfTwoTest
+public abstract class FunctionalArrayTest<T>
 {
-    @Test
-    public void shouldFindCeilingPowerOfTwo() throws Exception
+    private final T[] data;
+
+    public FunctionalArrayTest(final T... data)
     {
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1023), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1024), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1025), is(2048));
+        this.data = data;
     }
+
+    @Test
+    public void shouldSetAndGetValues()
+    {
+        for(int i = 0; i < data.length; i++)
+        {
+            setDatum(i, (T) data[i]);
+
+            assertThat(getDatum(i), is(equalTo(data[i])));
+        }
+    }
+
+    @Test
+    public void shouldGetMultipleTimes() throws Exception
+    {
+        setDatum(0, data[0]);
+        assertThat(getDatum(0), is(equalTo(data[0])));
+        assertThat(getDatum(0), is(equalTo(data[0])));
+    }
+
+    @Test
+    public void shouldOverwriteExistingValues() throws Exception
+    {
+        setDatum(0, data[0]);
+        setDatum(0, data[1]);
+        assertThat(getDatum(0), is(equalTo(data[1])));
+    }
+
+    abstract void setDatum(final int index, final T value);
+    abstract T getDatum(final int index);
 }

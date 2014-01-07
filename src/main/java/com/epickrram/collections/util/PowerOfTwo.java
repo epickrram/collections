@@ -15,21 +15,19 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-package com.epickrram.collections.histogram;
+package com.epickrram.collections.util;
 
-import com.epickrram.collections.util.PowerOfTwo;
-import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-public final class PowerOfTwoTest
+public enum PowerOfTwo
 {
-    @Test
-    public void shouldFindCeilingPowerOfTwo() throws Exception
+    INSTANCE;
+
+    public int nextHighestPowerOfTwo(final int value)
     {
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1023), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1024), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1025), is(2048));
+        int ceiling = 1;
+        while(ceiling < value)
+        {
+            ceiling <<= 1;
+        }
+        return ceiling;
     }
 }

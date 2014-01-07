@@ -1,5 +1,7 @@
+package com.epickrram.collections.array;
+
 //////////////////////////////////////////////////////////////////////////////////
-//   Copyright 2013   Mark Price     mark at epickrram.com                      //
+//   Copyright 2014   Mark Price     mark at epickrram.com                      //
 //                                                                              //
 //   Licensed under the Apache License, Version 2.0 (the "License");            //
 //   you may not use this file except in compliance with the License.           //
@@ -15,21 +17,24 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-package com.epickrram.collections.histogram;
-
-import com.epickrram.collections.util.PowerOfTwo;
-import org.junit.Test;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-public final class PowerOfTwoTest
+public final class Int1P1CArrayTest extends FunctionalArrayTest<Integer>
 {
-    @Test
-    public void shouldFindCeilingPowerOfTwo() throws Exception
+    private final Int1P1CArray array = new Int1P1CArray(12);
+
+    public Int1P1CArrayTest()
     {
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1023), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1024), is(1024));
-        assertThat(PowerOfTwo.INSTANCE.nextHighestPowerOfTwo(1025), is(2048));
+        super(1, 2, 3, 4, 5, 6, 7, 8, 9, 983749234, 238742, -1);
+    }
+
+    @Override
+    void setDatum(final int index, final Integer value)
+    {
+        array.set(index, value);
+    }
+
+    @Override
+    Integer getDatum(final int index)
+    {
+        return array.get(index);
     }
 }
